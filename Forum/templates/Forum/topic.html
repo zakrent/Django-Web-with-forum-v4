@@ -1,0 +1,48 @@
+{% extends 'base.html' %}
+
+{% block body %}
+    <div class="row">
+        <div class="col-md-4 col-xs-12">
+            <ol class="breadcrumb forum-breadcrumb">
+                <li><a href="/">Home</a></li>
+                <li><a href="{% url 'forum:index' 1%}">Forum</a></li>
+                <li><a href="{% url 'forum:topic' topic.pk 1 %}">{{ topic.name }}</a></li>
+            </ol>
+        </div>
+        <div class="col-md-8 col-xs-12">
+            <div class="btn-group btn-group-sm forum-button-group" role="group">
+                <a class="btn btn-default btn-sm forum-button" href="{% url 'forum:topic' topic.pk 1 %}" role="button">First</a>
+                {% if page.has_previous %}
+                    <a class="btn btn-default btn-sm forum-button" href="{% url 'forum:topic' topic.pk page.previous_page_number %}" role="button">Prev</a>
+                {% else %}
+                    <div class="btn btn-default btn-sm forum-button" disabled="disabled">Prev</div>
+                {% endif %}
+                <div class="btn btn-sm btn-primary forum-button">{{ page.number }}</div>
+                {% if page.has_next %}
+                    <a class="btn btn-default btn-sm forum-button" href="{% url 'forum:topic' topic.pk page.next_page_number %}" role="button">Next</a>
+                {% else %}
+                    <div class="btn btn-default btn-sm forum-button" disabled="disabled">Next</div>
+                {% endif %}
+                <a class="btn btn-default btn-sm forum-button" href="{% url 'forum:topic' topic.pk last_page %}" role="button">Last</a>
+            </div>
+        </div>
+    </div>
+
+    <table class="table table-striped table-bordered">
+        {% for post in page %}
+            <tr>
+                <th style="width: 100px">
+                    {{ post.creator.username }}<br>
+                    <span class="light-text">
+                        {{ post.creation_date.date }}<br>
+                        {{ post.creation_date.time }}
+                    </span>
+                </th>
+                <th>{{ post.content }}</th>
+            </tr>
+        {% endfor %}
+    </table>
+
+    {% include 'form.html' %}
+
+{% endblock %}

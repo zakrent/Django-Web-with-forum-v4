@@ -1,0 +1,11 @@
+<form class="panel-body" method="post" action="">
+    {% csrf_token %}
+    {% for field in form %}
+        <div class="form-group">
+            {{ field.errors }}
+            <label for="{{ field.id_for_label }}">{{ field.label }}</label><br>
+            {{ field }}
+         </div>
+    {% endfor %}
+    <input type="submit" class="btn btn-primary" value="{{ submit_value }}">
+</form>
