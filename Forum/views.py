@@ -17,6 +17,7 @@ def index(request, page_number=1):
             post.topic = topic
             post.save()
             return redirect('forum:topic', topic.pk, 1)
+        return redirect('forum:log_in')
     form = Topic_Creation_Form()
     topics = Topic.objects.all().order_by('-pk')
     paginator = Paginator(topics, 20)
